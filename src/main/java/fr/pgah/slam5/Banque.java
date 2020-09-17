@@ -5,32 +5,34 @@ import java.util.Set;
 
 public class Banque {
 
-    private HashMap<Integer, Integer> comptes = new HashMap<>();
+    private HashMap<Integer, Compte> comptes = new HashMap<>();
     private double taux = 0.01;
     private int numDernierCompte = 0;
 
-    public int creeCompte() {
+    public int creeCompte(boolean origine) {
         int numCompte = numDernierCompte++;
-        comptes.put(numCompte, 0);
+        Compte nouveau = new Compte(origine);
+        comptes.put(numCompte, nouveau);
         return numCompte;
     }
 
     public int getSolde(int numCompte) {
-        return comptes.get(numCompte);
+        return comptes.get(numCompte).getSolde();
     }
 
     public void crediter(int numCompte, int montant) {
-        int solde = comptes.get(numCompte);
-        int nouveauSolde = solde + montant;
-        comptes.put(numCompte, nouveauSolde);
+        Compte compte = comptes.get(numCompte);
+        int nouveauSolde = compte.getSolde();
+        compte.setSolde(nouveauSolde);
+        ;
     }
 
     public void appliquertInterets() {
-        Set<Integer> numerosDesComptes = comptes.keySet();
-        for (int num : numerosDesComptes) {
-            int solde = comptes.get(num);
+        for (Compte compte : comptes.values()) {
+            int solde = compte.getSolde();
             int nouveauSolde = (int) (solde * (1 + taux));
-            comptes.put(num, nouveauSolde);
+            compte.setSolde(nouveauSolde);
+            ;
 
         }
     }
@@ -39,8 +41,15 @@ public class Banque {
 
         Set<Integer> numerosDesComptes = comptes.keySet();
         String res = "La banque gère " + numerosDesComptes.size() + " comptes.";
+        String provenance;
+
         for (int num : numerosDesComptes) {
-            res += "\n\tCompte " + num + ": solde = " + comptes.get(num);
+            if (comptes.get(num).getEstEstranger()) {
+                provenance = "etranger";
+            } else {
+                provenance = "non-etranger";
+            }
+            res += "\n\tCompte " + num + ": solde = " + comptes.get(num).getSolde() + "(" + provenance + ")";// comptes.get(num).getEstEtranger()?"etranger":"non-etranger"
 
         }
         return res;
@@ -48,7 +57,7 @@ public class Banque {
 
     public boolean demandeEmprunt(int numCompte, int montant) {
 
-        int solde = comptes.get(numCompte);
+        int solde = comptes.get(numCompte).getSolde();
         return solde >= montant / 2;
 
     }
