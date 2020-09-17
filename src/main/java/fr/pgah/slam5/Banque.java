@@ -1,6 +1,7 @@
 package fr.pgah.slam5;
 
 import java.util.HashMap;
+import java.util.Scanner;
 import java.util.Set;
 
 public class Banque {

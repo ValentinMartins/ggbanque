@@ -5,8 +5,12 @@ import java.util.Scanner;
 public class BanqueClient {
     private int numCompteSelectionne = 0;
     private Banque banque = new Banque();
-    private Scanner scanner = new Scanner(System.in);
+    private Scanner scanner;
     private boolean fin = false;
+
+    public BanqueClient(Scanner scanner) {
+        this.scanner = scanner;
+    }
 
     void run() {
         while (!fin) {
