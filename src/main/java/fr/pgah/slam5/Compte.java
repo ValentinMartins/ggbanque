@@ -16,11 +16,17 @@ public class Compte {
         return solde;
     }
 
-    public void setSolde(int nouveauSolde) {
-        this.solde = nouveauSolde;
-    }
-
     public boolean getEstEstranger() {
         return estEtranger;
+    }
+
+    public void appliquertInterets(double taux) {
+        solde = (int) (solde * (1 + taux));
+
+    }
+
+    public void crediter(int montant) {
+        solde += montant;
+
     }
 }

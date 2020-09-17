@@ -22,17 +22,14 @@ public class Banque {
 
     public void crediter(int numCompte, int montant) {
         Compte compte = comptes.get(numCompte);
-        int nouveauSolde = compte.getSolde();
-        compte.setSolde(nouveauSolde);
-        ;
+        compte.crediter(montant);
+
     }
 
     public void appliquertInterets() {
         for (Compte compte : comptes.values()) {
-            int solde = compte.getSolde();
-            int nouveauSolde = (int) (solde * (1 + taux));
-            compte.setSolde(nouveauSolde);
-            ;
+
+            compte.appliquertInterets(taux);
 
         }
     }
