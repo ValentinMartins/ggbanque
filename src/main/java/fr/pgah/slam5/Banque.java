@@ -41,7 +41,7 @@ public class Banque {
 
         for (Compte compteInterets : comptes.values()) {
 
-            compteInterets.appliquertInterets(taux);
+            compteInterets.appliquertInterets();
 
         }
 

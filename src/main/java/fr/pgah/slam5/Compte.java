@@ -2,10 +2,9 @@ package fr.pgah.slam5;
 
 public class Compte {
 
-    private int solde;
-    private boolean estEtranger;
-    private int numCompte; // 1 compte epargene 2 compte courant
-    private double taux = 0.01;
+    protected int solde; //
+    protected boolean estEtranger;
+    protected int numCompte; // 1 compte epargene 2 compte courant
 
     // dictionnaire vs liste un dico permet a partir d une celf de retrouver la
     // valeur rapidement contrairement a la liste qui parcoure tout le tableau
@@ -23,10 +22,7 @@ public class Compte {
         return estEtranger;
     }
 
-    public void appliquertInterets(double taux) {
-        if (typeComptes == 1) {
-            solde = (int) (solde * (1 + taux));
-        }
+    public void appliquertInterets() {
 
     }
 
@@ -36,28 +32,10 @@ public class Compte {
     }
 
     public String toString() {
-        String provenance;
-        String nom;
-        if (estEtranger) {
-            provenance = "etrangr";
-        } else {
-            provenance = "nom-etranger";
-        }
-        if (typeComptes == 1) {
-            nom = "epargne";
-        } else {
-            nom = "courant";
-        }
-        return "\n\tCompte " + nom + " " + numCompte + ": solde = " + solde + "(" + provenance + ")";
-
+        return "";
     }
 
     public boolean offreGarantiesSuffiantesPour(int montant) {
-        if (typeComptes == 1) {
-            return solde >= montant / 2;
-        } else {
-            return solde >= 2 * montant / 3;
-        }
-
+        return false;
     }
 }
