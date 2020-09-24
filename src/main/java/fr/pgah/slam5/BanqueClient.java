@@ -4,12 +4,14 @@ import java.util.Scanner;
 
 public class BanqueClient {
     private int numCompteSelectionne = 0;
-    private Banque banque = new Banque();
     private Scanner scanner;
-    private boolean fin = false;
 
-    public BanqueClient(Scanner scanner) {
+    private boolean fin = false;
+    private Banque banque;
+
+    public BanqueClient(Scanner scanner, Banque banque) {
         this.scanner = scanner;
+        this.banque = banque;
     }
 
     void run() {
@@ -50,7 +52,8 @@ public class BanqueClient {
 
     private void creerNouveauCompte() {
         boolean origine = demanderSiEteanger();
-        numCompteSelectionne = banque.creeCompte(origine);
+        int type = demanderType();
+        numCompteSelectionne = banque.creeCompte(origine, type);
         System.out.println("Le numéro de votre nouveau compte est : " + numCompteSelectionne);
     }
 
@@ -95,6 +98,13 @@ public class BanqueClient {
         } else {
             return true;
         }
+    }
+
+    private int demanderType() {
+        System.out.print("type  (1 = Epargne , 2 = Courant) : ");
+        int entree = scanner.nextInt();
+        return entree;
+
     }
 
 }

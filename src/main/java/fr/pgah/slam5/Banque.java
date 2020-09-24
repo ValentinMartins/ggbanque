@@ -6,14 +6,24 @@ import java.util.Set;
 
 public class Banque {
 
-    private HashMap<Integer, Compte> comptes = new HashMap<>();
+    private HashMap<Integer, Compte> comptes;
     private double taux = 0.01;
     private int numDernierCompte = 0;
 
-    public int creeCompte(boolean origine) {
+    public Banque(HashMap<Integer, Compte> comptes) {
+        this.comptes = comptes;
+    }
+
+    public int creeCompte(boolean origine, int type) { // parametre de la methode
         int numCompte = numDernierCompte++;
-        Compte nouveau = new Compte(origine);
-        comptes.put(numCompte, nouveau);
+        Compte compte;
+        if (type == 1) {
+            compte = new CompteEpargne(origine, numCompte);
+        } else {
+            compte = new CompteCourant(origine, numCompte);
+        }
+
+        comptes.put(numCompte, compte);
         return numCompte;
     }
 
@@ -28,35 +38,30 @@ public class Banque {
     }
 
     public void appliquertInterets() {
-        for (Compte compte : comptes.values()) {
 
-            compte.appliquertInterets(taux);
+        for (Compte compteInterets : comptes.values()) {
+
+            compteInterets.appliquertInterets(taux);
 
         }
+
     }
 
     public String toString() {
 
         Set<Integer> numerosDesComptes = comptes.keySet();
         String res = "La banque gère " + numerosDesComptes.size() + " comptes.";
-        String provenance;
 
         for (int num : numerosDesComptes) {
-            if (comptes.get(num).getEstEstranger()) {
-                provenance = "etranger";
-            } else {
-                provenance = "non-etranger";
-            }
-            res += "\n\tCompte " + num + ": solde = " + comptes.get(num).getSolde() + "(" + provenance + ")";// comptes.get(num).getEstEtranger()?"etranger":"non-etranger"
+            res = comptes.get(num).toString();
 
         }
         return res;
     }
 
     public boolean demandeEmprunt(int numCompte, int montant) {
-
-        int solde = comptes.get(numCompte).getSolde();
-        return solde >= montant / 2;
+        Compte compte = comptes.get(numCompte);
+        return compte.offreGarantiesSuffiantesPour(montant);
 
     }
 }
